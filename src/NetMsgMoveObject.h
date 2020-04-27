@@ -11,7 +11,7 @@ namespace Aftr
 	class NetMsgMoveObject : public NetMsg
 	{
 	public:
-		NetMsgMacroDeclaration(NetMsgMoveObject);
+		//NetMsgMacroDeclaration(NetMsgMoveObject);
 
 		NetMsgMoveObject();
 		virtual ~NetMsgMoveObject();

@@ -139,12 +139,11 @@ void GLViewNewModule::updateWorld()
    Aftr::Vector playerPosition(cameraPositionX , cameraPositionY - 15, cameraPositionZ + 10);
    playerShip->setPosition(playerPosition);
    Aftr::Vector playerDirection = (cameraDirectionX , cameraDirectionY, cameraDirectionZ);
-   //playerShip->getModel()->setLookDirection(playerDirection);
-   starDestroyerDistance += 0.05;
-   Aftr::Vector starDestroyerPosition(0, 0, -starDestroyerDistance);
-   enemyShip->setPosition(starDestroyerPosition);
-   //starDestroyerSound->setPosition(irrklang::vec3df (starDestroyerDistance, 0, 0));
 
+   NetMsgMoveObject message1;
+   message1.model = "xwing";
+   message1.position = playerPosition;
+   client->sendNetMsgSynchronousTCP(message1);
 }
 
 
@@ -184,16 +183,65 @@ void GLViewNewModule::onKeyDown( const SDL_KeyboardEvent& key )
   {
 	  this->setNumPhysicsStepsPerRender(1);
   }
-   if( key.keysym.sym == SDLK_1 )
+   if( key.keysym.sym == SDLK_w )
    {
+	   ywingPosition.x = ywingPosition.x + 1.0;
 
 	   NetMsgMoveObject message1;
-	   ywingDistance++;
-	   message1.model = ManagerEnvironmentConfiguration::getLMM() + "/models/Ywing.stl";
-	   message1.position = Vector(50, 50, ywingDistance);
+	   message1.model = "ywing";
+	   message1.position = ywingPosition;
 	   client->sendNetMsgSynchronousTCP(message1);
-	   ywing->setPosition(Vector(50, 50, ywingDistance));
+	   ywing->setPosition(ywingPosition);
+   }
+   if (key.keysym.sym == SDLK_e)
+   {
+	   ywingPosition.y = ywingPosition.y + 1.0;
 
+	   NetMsgMoveObject message1;
+	   message1.model = "ywing";
+	   message1.position = ywingPosition;
+	   client->sendNetMsgSynchronousTCP(message1);
+	   ywing->setPosition(ywingPosition);
+   }
+   if (key.keysym.sym == SDLK_r)
+   {
+	   ywingPosition.z = ywingPosition.z + 1.0;
+
+	   NetMsgMoveObject message1;
+	   message1.model = "ywing";
+	   message1.position = ywingPosition;
+	   client->sendNetMsgSynchronousTCP(message1);
+	   ywing->setPosition(ywingPosition);
+   }
+   if (key.keysym.sym == SDLK_s)
+   {
+	   ywingPosition.x = ywingPosition.x - 1.0;
+
+	   NetMsgMoveObject message1;
+	   message1.model = "ywing";
+	   message1.position = ywingPosition;
+	   client->sendNetMsgSynchronousTCP(message1);
+	   ywing->setPosition(ywingPosition);
+   }
+   if (key.keysym.sym == SDLK_d)
+   {
+	   ywingPosition.y = ywingPosition.y - 1.0;
+
+	   NetMsgMoveObject message1;
+	   message1.model = "ywing";
+	   message1.position = ywingPosition;
+	   client->sendNetMsgSynchronousTCP(message1);
+	   ywing->setPosition(ywingPosition);
+   }
+   if (key.keysym.sym == SDLK_f)
+   {
+	   ywingPosition.z = ywingPosition.z - 1.0;
+
+	   NetMsgMoveObject message1;
+	   message1.model = "ywing";
+	   message1.position = ywingPosition;
+	   client->sendNetMsgSynchronousTCP(message1);
+	   ywing->setPosition(ywingPosition);
    }
 }
 
@@ -377,11 +425,12 @@ void Aftr::GLViewNewModule::loadMap()
 
    std::string ywingModel(ManagerEnvironmentConfiguration::getLMM() + "/models/Ywing.stl");
    ywing = WO::New(ywingModel, Vector(0.1, 0.1, 0.1));
-   ywing->setPosition(Vector(50, 50, 5));
+   ywingPosition = (50.0, 50.0, 0.0);
+   ywing->setPosition(ywingPosition);
    ManagerGLView::getGLView()->getWorldContainer()->push_back(ywing);
 
    //Create Xwing
-   std::string xwing(ManagerEnvironmentConfiguration::getLMM() + "/models/Xwing.stl");
+   xwing = (ManagerEnvironmentConfiguration::getLMM() + "/models/Xwing.stl");
    playerShip = WO::New(xwing, Vector(.1, .1, .1), MESH_SHADING_TYPE::mstFLAT);
    playerShip->setPosition(Vector(-100, -100, -100));
    playerShip->setLabel("Player Ship");

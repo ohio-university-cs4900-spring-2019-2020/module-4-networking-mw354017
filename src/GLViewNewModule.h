@@ -38,13 +38,17 @@ public:
    irrklang::ISoundEngine* soundEngine = NULL;
    irrklang::ISound* starDestroyerSound = NULL;
    WO* playerShip = NULL;
+   WO* playerTwoShip = NULL;
    WO* enemyShip = NULL;
    WO* ywing = NULL;
    float starDestroyerDistance = 0;
    float starDestroyerDirectionX = 0;
    float starDestroyerDirectionY = 0;
    float starDestroyerDirectionZ = 0;
-   float ywingDistance = 5;
+   Vector xwingPosition;
+   Vector ywingPosition;
+   bool playerTwo = false;
+   std::string xwing;
    //NetMessengerClient* client = NetMessengerClient::New();
 
 

@@ -16,6 +16,8 @@
 
 using namespace Aftr;
 
+NetMsgMacroDefinition(NetMsgMoveObject);
+
 NetMsgMoveObject::NetMsgMoveObject()
 {
 	this->message = message;
@@ -39,11 +41,22 @@ bool NetMsgMoveObject::fromStream(NetMessengerStreamBuffer& is)
 
 void NetMsgMoveObject::onMessageArrived()
 {
-	((GLViewNewModule*)ManagerGLView::getGLView())->ywing->setPosition(position);
-	//WO* wo = WO::New(model, Vector(.1, .1, .1), MESH_SHADING_TYPE::mstFLAT);
-	//wo->setPosition(position);
-	//ManagerGLView::getGLView()->getWorldContainer()->push_back(wo);
-	std::cout << this->toString() << std::endl;
+	if (model == "xwing") {
+		if (!((GLViewNewModule*)ManagerGLView::getGLView())->playerTwo) {
+			((GLViewNewModule*)ManagerGLView::getGLView())->playerTwo = true;
+			((GLViewNewModule*)ManagerGLView::getGLView())->playerTwoShip = WO::New(((GLViewNewModule*)ManagerGLView::getGLView())->xwing, Vector(.1, .1, .1), MESH_SHADING_TYPE::mstFLAT);
+			((GLViewNewModule*)ManagerGLView::getGLView())->playerTwoShip->setLabel("Player Two Ship");
+			ManagerGLView::getGLView()->getWorldContainer()->push_back(((GLViewNewModule*)ManagerGLView::getGLView())->playerTwoShip);
+		}
+		((GLViewNewModule*)ManagerGLView::getGLView())->playerTwoShip->setPosition(position);
+		//((GLViewNewModule*)ManagerGLView::getGLView())->xwingPosition = position;
+		std::cout << this->toString() << std::endl;
+	}
+	else {
+		((GLViewNewModule*)ManagerGLView::getGLView())->ywing->setPosition(position);
+		((GLViewNewModule*)ManagerGLView::getGLView())->ywingPosition = position;
+		std::cout << this->toString() << std::endl;
+	}
 }
 
 std::string NetMsgMoveObject::toString() const
